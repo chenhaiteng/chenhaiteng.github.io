@@ -1,5 +1,5 @@
 ---
-layout: tag_page
+layout: post
 title:  "Implement factory method with enum"
 date:   2021-07-02 13:47:00 +0800
 categories: kotlin

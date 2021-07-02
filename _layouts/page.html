@@ -34,13 +34,10 @@
         {% endif %}
 
         <div><p class="header"><a href="/">Home</a></p></div>
-<!--         {% if site.github.is_user_page %}
-        <p class="header">About <a href="/about/index.html">Author</a></p>
-          <p class="header">I'm {{ site.github.nickname }}</p>
-          <ul>
-            <li><a class="buttons github" href="{{ site.github.owner_url }}">Profile on Github</a></li>
-          </ul>
-        {% endif %} -->
+
+        <div id="all-tags">
+            {{ site | tag_cloud }}
+        </div>
       </header>
 
       <section>
