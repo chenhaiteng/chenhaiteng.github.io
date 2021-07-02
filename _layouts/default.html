@@ -16,6 +16,7 @@
     <div class="wrapper">
       <header>
         <h1 class="header">{{ site.title | default: site.github.repository_name }}</h1>
+        <p class="header">I'm {{ site.github.nickname | default: site.github.project_tagline }}.</p>
         <p class="header">{{ site.description | default: site.github.project_tagline }}</p>
 
         <ul>
@@ -34,11 +35,7 @@
         {% endif %}
 
         {% if site.github.is_user_page %}
-        <p class="header">About <a href="/about/index.html">Author</a></p>
-          <!-- <p class="header">I'm {{ site.github.nickname }}</p>
-          <ul>
-            <li><a class="buttons github" href="{{ site.github.owner_url }}">Profile on Github</a></li>
-          </ul> -->
+          <p class="header"><a href="/about/index.html">More About Me</a></p>
         {% endif %}
       </header>
 
