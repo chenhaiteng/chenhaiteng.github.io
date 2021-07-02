@@ -2,9 +2,10 @@
 layout: page
 ---
 <h1>{{ page.title }}</h1>
+<p>{{ page.date | date_to_string }}</p>
 <dl>
 {% for post in site.posts %}
-  ({{ post.date | date_to_string }} | Tags: {{ post | tags }})
+  {{ post | tags }}
 {% endfor %}
 </dl>
 
