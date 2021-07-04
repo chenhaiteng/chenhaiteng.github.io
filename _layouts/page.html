@@ -35,10 +35,16 @@
 
         <div><p class="header"><a href="/">Home</a></p></div>
       </header>
-
+      
       <section>
         {{ content }}
       </section>
+      
+      {% if page.id %}
+      <sidebar style="position: fixed; float: left; width: 200px; margin-left: 40px; margin-top: 400px;">
+        {% include tag_cloud.html %}
+      </sidebar>
+      {% endif %}
 
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
