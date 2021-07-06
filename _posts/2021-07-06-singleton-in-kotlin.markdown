@@ -216,8 +216,9 @@ class SingletonB private constructor() {
 ```
 By making companion object inherit to SingletonHolder[[2](#references)], it's simplify and hide the process to create singleton.
 
-### Variant -- Extract Singleton to Delegated Property
-In kotlin, there is another way to extract singleton to out of class -- use delegated progperty[[3](#references)].
+## Implement Singleton with Delegated Property
+
+In kotlin, there is another way to implement singleton to out of class -- use delegated progperty[[3](#references)].
 
 ```kotlin
 class SingletonDelegate<T, V>(private val initBlock: () -> V) : ReadOnlyProperty<T, V> {
@@ -249,6 +250,10 @@ class Singleton private constructor() {
 }
 ```
 In additionally, the delegated property approach is much easier to create Default/Standard/Shared to support different pre-defined configuration.
+
+Although delegated property can reduce the effort to create singleton, it has an explictly flaw -- it's hard to inject parameters dynamically.
+
+If a singleton depends on some environment variable/object, for example, the context of an android app, it would be better to implement it with **SingletonHolder**.
 
 ## Use DI to Manage Singleton
 Finally, if you are familiar with dependency injection, it's also good to choose a DI container to help you to manage the singleton.
