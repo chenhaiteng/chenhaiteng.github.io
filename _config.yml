@@ -34,6 +34,7 @@ github:
 theme: jekyll-theme-dinky
 plugins:
   - jekyll-feed
+google_analytics: UA-1157651-2
 
 # Exclude from processing.
 # The following items will not be processed, by default.
