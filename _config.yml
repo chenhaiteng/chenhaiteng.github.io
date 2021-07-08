@@ -36,7 +36,7 @@ plugins:
   - jekyll-feed
 google_analytics: UA-1157651-2
 
-comment_api: https://staticmaninstance.herokuapp.com/v3/entry/github/chenhaiteng/chenhaiteng.github.io/main/comments
+comment_api: https://whisper-comment.herokuapp.com/v3/entry/github/chenhaiteng/chenhaiteng.github.io/main/comments
 
 # Exclude from processing.
 # The following items will not be processed, by default.
