@@ -728,6 +728,52 @@ static func buildOptional(_ component: [Color]?) -> [Color] {
 
 Now, with *buildEither(first:), buildEither(second:)* and  *buildOptional(_:)*, a result builder can support *if, if-else,* and *if-else-if* statements. Furthermore, since *switch* is another form of if-else-if, it also support *switch* too.
 
+* **buildArray**
+Another important control-flow is loop. To support loop statements, result builder requires developer to implement *buildArray*:
+```swift
+extension GradientBuilder {
+    static func buildArray(_ components: [[Color]]) -> [Color] {
+         return components.flatMap { $0 }
+    }
+}
+```
+
+Note that the input of buildArray is also an array of Color array. Because each iteration should create a block, and buildArray collects and processes those blocks.
+
+The execution sequence of buildArray looks like:
+```swift
+GradientPreview {
+    for i in 0...5 {
+        (0.2*Double(i), 0.5, 0.5, 1.0)
+    }
+}
+
+// Logs
+    buildExpression(_:): rgba float
+    buildBlock(_:)
+    buildExpression(_:): rgba float
+    buildBlock(_:)
+    buildExpression(_:): rgba float
+    buildBlock(_:)
+    buildExpression(_:): rgba float
+    buildBlock(_:)
+    buildExpression(_:): rgba float
+    buildBlock(_:)
+    buildExpression(_:): rgba float
+    buildBlock(_:)
+    buildArray(_:)
+buildBlock(_:)
+buildFinalResult(_:):angular
+```
+<!-- TODO -->
+<!-- 1. * **buildLimitedAvailability** -->
+<!-- 2. Enum/Class/Structure on result builder -->
+<!-- 3. Use Overload with result builder -->
+<!-- 4. Use Generic with result builder -->
+<!-- 5. Summary -->
+
+<!-- 
+
 
 ```swift
 @CustomBuilder var builder: [String] {
@@ -767,8 +813,10 @@ extension CustomBuilder {
 }
 
 ```
+-->
 
+#### References:
+[SE-0289](https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md)
 
-https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md#the-result-builder-transform
+[The Swift Programming Language - resultBuilder](https://docs.swift.org/swift-book/ReferenceManual/Attributes.html#ID633)
 
-https://docs.swift.org/swift-book/ReferenceManual/Attributes.html#ID633
