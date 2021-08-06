@@ -700,9 +700,11 @@ buildFinalResult(_:):angular
 Note that when useRYB is true, it invokes buildEither(first:) twice. and when useRYB is false, but useOrange is true, it calls buildEither(second:) first, then buildEither(first:).
 
 So we can imagine the structure of if-elseif-else as follows:
+
 ![if_elif](/assets/images/if_elif_structure.png)
 
 And if can convert to a binary tree:
+
 ![if_elif](/assets/images/if_elif_btree.png)
 
 And the call sequence is from the leaf to the root.
