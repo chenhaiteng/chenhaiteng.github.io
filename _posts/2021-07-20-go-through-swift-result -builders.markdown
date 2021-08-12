@@ -263,6 +263,8 @@ A result builder to generate gradient is required to have basic abilities below:
 1. Developer can put series of colors into it.
 2. The product should be a gradient object -- such as LinearGradient or AngularGradient in SwiftUI.
 
+---
+
 * **buildBlock**
 
 To match the basic requirement above, it can simply declare GradientBuilder as following:
@@ -346,6 +348,8 @@ and it logs:
 ```swift
 1 buildBlock(_:):angular
 ```
+
+---
 
 * **buildExpression**
 
@@ -436,6 +440,8 @@ buildExpression(_:): rgba float
 buildBlock(_:):angular
 ```
 Just like what we talk about in previous section.
+
+---
 
 * **buildFinalResult**
 
@@ -534,6 +540,8 @@ extension GradientBuilder {
     }
 }
 ```
+
+---
 
 * **buildEither(first:), buildEither(second:), and buildOptional(_:)**
 
@@ -747,13 +755,14 @@ buildExpression(_:): color
 buildBlock(_:)
 buildFinalResult(_:):angular
 ```
-Now, the role of buildEither(first:) and buildEither(second:) is repalced by a single buildOptional.
-
-
+It can find that the role of buildEither(first:) and buildEither(second:) is repalced by a single buildOptional.
 
 Now, with *buildEither(first:), buildEither(second:)* and  *buildOptional(_:)*, a result builder can support *if, if-else,* and *if-else-if* statements. Furthermore, since *switch* is another form of if-else-if, it also support *switch* too.
 
+---
+
 * **buildArray**
+
 Another important control-flow is loop. To support loop statements, result builder requires developer to implement *buildArray*:
 ```swift
 extension GradientBuilder {
@@ -791,8 +800,23 @@ buildBlock(_:)
 buildFinalResult(_:):angular
 ```
 
+---
+
+<!-- In progress
 * **buildLimitedAvailability**
-The latest piece of result builder is *buildLimitedAvailability*.
+
+Finally, let's talk about the *buildLimitedAvailability*.
+The purpose of this method is shown in its name -- to support "if #available" checking.
+
+With the *buildLimitedAvailability* implemented, developer can checking availablity as following:
+```swift
+GradientPreview {
+    if #available(iOS 11, *) {
+    } else {
+    }
+}
+```
+-->
 
 <!-- TODO -->
 <!-- 1. * **buildLimitedAvailability** -->
