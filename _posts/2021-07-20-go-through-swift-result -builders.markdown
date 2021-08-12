@@ -724,9 +724,32 @@ GradientPreview {
 To solve this problem, it implements *buildOptional* as following:
 ```swift
 static func buildOptional(_ component: [Color]?) -> [Color] {
-    return []
+    print("\(#function)")
+    return component ?? []
 }
 ```
+
+Note that the input of *buildOptional* might be null, but the output should not be.
+And If wer execute and log the "if showBlock" statements, it looks like following:
+```swift
+// showBlack false
+buildExpression(_:): color
+    // ----------- no expression and block execute
+    buildOptional(_:)
+buildBlock(_:)
+buildFinalResult(_:):angular
+
+// showBlack true
+buildExpression(_:): color
+    buildExpression(_:): color
+    buildBlock(_:)
+    buildOptional(_:)
+buildBlock(_:)
+buildFinalResult(_:):angular
+```
+Now, the role of buildEither(first:) and buildEither(second:) is repalced by a single buildOptional.
+
+
 
 Now, with *buildEither(first:), buildEither(second:)* and  *buildOptional(_:)*, a result builder can support *if, if-else,* and *if-else-if* statements. Furthermore, since *switch* is another form of if-else-if, it also support *switch* too.
 
@@ -767,6 +790,10 @@ GradientPreview {
 buildBlock(_:)
 buildFinalResult(_:):angular
 ```
+
+* **buildLimitedAvailability**
+The latest piece of result builder is *buildLimitedAvailability*.
+
 <!-- TODO -->
 <!-- 1. * **buildLimitedAvailability** -->
 <!-- 2. Enum/Class/Structure on result builder -->
