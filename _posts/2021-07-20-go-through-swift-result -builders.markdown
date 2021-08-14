@@ -802,24 +802,104 @@ buildFinalResult(_:):angular
 
 ---
 
-<!-- In progress
 * **buildLimitedAvailability**
 
 Finally, let's talk about the *buildLimitedAvailability*.
 The purpose of this method is shown in its name -- to support "if #available" checking.
 
-With the *buildLimitedAvailability* implemented, developer can checking availablity as following:
+When the *buildLimitedAvailability* implemented, developer can checking availablity as following:
 ```swift
 GradientPreview {
+    (1.0, 1.0, 1.0, 1.0)
     if #available(iOS 11, *) {
+    	Color.red
     } else {
+    	Color.blue
+    }
+    (255, 255, 255, 255)
+}
+```
+
+And the sequence of execution like:
+
+```
+// For iOS 11 or later version
+buildExpression(_:): rgba float
+    buildExpression(_:): color
+    buildBlock(_:)
+    buildLimitedAvailability(_:)
+    buildEither(first:)
+buildExpression(_:): rgba
+buildBlock(_:)
+buildFinalResult(_:):angular
+
+// For other cases
+buildExpression(_:): rgba float
+    buildExpression(_:): color
+    buildBlock(_:)
+    // buildLimitedAvailability(_:) is not called
+    buildEither(second:)
+buildExpression(_:): rgba
+buildBlock(_:)
+buildFinalResult(_:):gradient
+```
+
+The difference between 'if #available' and 'if' might be confusing. It looks like that the *buildLimitedAvailability* is not necessary, and can use 'if'  statement instead of. It's because for GradientBuilder, there has no availability issues; no matter what type you input -- Color or tuples, the only dependence is SwiftUI.
+
+But thinking about other case, for example, **ViewBuilder**, then *buildLimitedAvailability* would be needed.
+
+```swift
+@available(macOS 10.15, iOS 13.0, *)
+struct ContentView: View {
+    var body: some View {
+        ScrollView {
+            if #available(macOS 11.0, iOS 14.0, *) {
+                LazyVStack {
+                    ForEach(1...1000, id: \.self) { value in
+                        Text("Row \(value)")
+                    }
+                }
+            } else {
+                VStack {
+                    ForEach(1...1000, id: \.self) { value in
+                        Text("Row \(value)")
+                    }
+                }
+            }
+        }
     }
 }
 ```
--->
+The snippet above is from SE-0289. it shows the example that *buildLimitedAvailability* is necessary. But why?
+
+The reason is about how ViewBuilder implement its *buildEither(first:)* and *buildEither(second:)* :
+```
+static func buildEither<TrueContent, FalseContent>(first: TrueContent) -> _ConditionalContent<TrueContent, FalseContent>    
+static func buildEither<TrueContent, FalseContent>(second: FalseContent) -> _ConditionalContent<TrueContent, FalseContent>
+```
+
+When the function is specialized in above example, it becomes:
+```
+static func buildEither(first: LazyVStack) -> _ConditionalContent<LazyVStack, VStack>
+static func buildEither(second: VStack) -> _ConditionalContent<LazyVStack, VStack>
+```
+It can be noticed the LazyVStack and VStack always appear, regardless of availability. It makes a compilation error.
+
+To solve this issue, *ViewBuilder* implement *buildLimitedAvailability* as following to **erase** type information:
+```
+static func buildLimitedAvailability<Content: View>(_ content: Content) -> AnyView { .init(content) }
+```
+
+Now, the buildEither(first:) and buildEither(second:) would be inferred to:
+```
+static func buildEither(first: AnyView) -> _ConditionalContent<AnyView, VStack>
+static func buildEither(second: VStack) -> _ConditionalContent<AnyView, VStack>
+```
+It can be compiled successfully on both macOS 11, iOS 14, and earlier version.
+
+
 
 <!-- TODO -->
-<!-- 1. * **buildLimitedAvailability** -->
 <!-- 2. Enum/Class/Structure on result builder -->
 <!-- 3. Use Overload with result builder -->
 <!-- 4. Use Generic with result builder -->
