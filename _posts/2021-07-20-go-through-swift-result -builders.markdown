@@ -258,8 +258,9 @@ But for now, let's focus on how the result builder combines these methods and de
 ### Go through result-building methods by creating custom result builder
 
 In this section, a result builder type called GradientBuilder will be created step by step and shows how result-building methods work.
+Also, You can get the source of GradientBuilder [here](https://github.com/chenhaiteng/GradientBuilder).
 
-A result builder to generate gradient is required to have basic abilities below:
+Let's think about what features are required for a result builder to generate gradient:
 1. Developer can put series of colors into it.
 2. The product should be a gradient object -- such as LinearGradient or AngularGradient in SwiftUI.
 
@@ -897,8 +898,17 @@ static func buildEither(second: VStack) -> _ConditionalContent<AnyView, VStack>
 ```
 It can be compiled successfully on both macOS 11, iOS 14, and earlier version.
 
-#### Other implementatino details
+Go back to GradientBuilder, after implementing those building functions, now GradientBuilder have following abilities:
+
+1. Developer can put series of colors into it.
+2. The color can be represented as Color, or tuples named ARGB and ARGBF.
+3. The product should be a gradient object -- includes LinearGradient, AngularGradient, and RadialGradient.
+4. Developer can use if-else and for-loop to constrict the gradient.
+5. Also, it support availability checking to seperate gradient from different OS and version.
+
 At this point, GradientBuilder is complete. But there are some details worth discussing.
+
+#### Other Details
 
 ##### What type can resultbuilder apply on? What are the differences among those? <!-- Enum/Class/Structure on result builder -->
 <!-- 
@@ -968,8 +978,9 @@ Let's summarize a list of how to customize the resultbuilder:
 	1. Check if type should be erased in buildLimitedAvailability. If its need erase the type, the [type erasure](https://www.donnywals.com/understanding-type-erasure-in-swift/) might be helpful.
 
 ---
-### [GradientBuilder Source](https://github.com/chenhaiteng/GradientBuilder)
+	
 ### References:
 * [SE-0289](https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md)
 * [The Swift Programming Language - resultBuilder](https://docs.swift.org/swift-book/ReferenceManual/Attributes.html#ID633)
 * [Awesome Result Builder](https://github.com/carson-katri/awesome-result-builders)
+* [GradientBuilder Source](https://github.com/chenhaiteng/GradientBuilder)
