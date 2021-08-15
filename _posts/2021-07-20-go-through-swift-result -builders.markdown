@@ -900,32 +900,7 @@ It can be compiled successfully on both macOS 11, iOS 14, and earlier version.
 #### Other implementatino details
 At this point, GradientBuilder is complete. But there are some details worth discussing.
 
-
-### Conclusion
-
-Let's summarize a list of how to customize the resultbuilder:
-
-1. Declaring a type with @resultbuilder.
-	1. the type might be Class, Structure, or Enum.
-2. Create buildBlock(\_:)
-	1. the basic form of buildBlock would be buildBlock(\_: Component...) -> Component
-	2. It can also be various overloaded functions, such as builcBlock(\_:C1) -> C, builcBlock(\_:C1, \_:C2) -> C, builcBlock(\_:C1, \_:C2, \_:C3) -> C ...
-	3. Considering what type of Component should be; normally, it would be better to define Component as Array<E> where E might be a input type of buildExpression(\_:).
-3. To support various input types, implement buildExpression(\_: Expression) -> Component
-4. To support different output types, implement buildFinalResult(\_: Component) -> FinalResult
-5. Ensure buildExpression -> buildBlock -> buildFinalResult works correctly.
-6. To support conditional statement, implement buildEither(first:), buildEither(second:) and buildOptional(\_:)
-	1. check that buildOptional(\_:) deal with null input correctly.
-7. To support for-loop, implement buildArray(\_:) 
-8. To support availablity checking, implement buildLimitedAvailability(_: Component) -> Component
-	1. Check if type should be erased in buildLimitedAvailability. If its need erase the type, the [type erasure](https://www.donnywals.com/understanding-type-erasure-in-swift/) might be helpful.
-
-<!-- TODO -->
-<!-- 2. Enum/Class/Structure on result builder -->
-<!-- 3. Use Overload with result builder -->
-<!-- 4. Use Generic with result builder -->
-<!-- 5. Summary -->
-
+##### What type can resultbuilder apply on? What are the differences among those? <!-- Enum/Class/Structure on result builder -->
 <!-- 
 
 
@@ -969,8 +944,32 @@ extension CustomBuilder {
 ```
 -->
 
-#### References:
-[SE-0289](https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md)
+##### Oerloading result building methods <!-- Use Overload with result builder -->
 
-[The Swift Programming Language - resultBuilder](https://docs.swift.org/swift-book/ReferenceManual/Attributes.html#ID633)
+##### Cowork with generic programming <!-- 4. Use Generic with result builder -->
 
+### Conclusion
+
+Let's summarize a list of how to customize the resultbuilder:
+
+1. Declaring a type with @resultbuilder.
+	1. the type might be Class, Structure, or Enum.
+2. Create buildBlock(\_:)
+	1. the basic form of buildBlock would be buildBlock(\_: Component...) -> Component
+	2. It can also be various overloaded functions, such as builcBlock(\_:C1) -> C, builcBlock(\_:C1, \_:C2) -> C, builcBlock(\_:C1, \_:C2, \_:C3) -> C ...
+	3. Considering what type of Component should be; normally, it would be better to define Component as Array<E> where E might be a input type of buildExpression(\_:).
+3. To support various input types, implement buildExpression(\_: Expression) -> Component
+4. To support different output types, implement buildFinalResult(\_: Component) -> FinalResult
+5. Ensure buildExpression -> buildBlock -> buildFinalResult works correctly.
+6. To support conditional statement, implement buildEither(first:), buildEither(second:) and buildOptional(\_:)
+	1. check that buildOptional(\_:) deal with null input correctly.
+7. To support for-loop, implement buildArray(\_:) 
+8. To support availablity checking, implement buildLimitedAvailability(_: Component) -> Component
+	1. Check if type should be erased in buildLimitedAvailability. If its need erase the type, the [type erasure](https://www.donnywals.com/understanding-type-erasure-in-swift/) might be helpful.
+
+---
+### [GradientBuilder Source](https://github.com/chenhaiteng/GradientBuilder)
+### References:
+* [SE-0289](https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md)
+* [The Swift Programming Language - resultBuilder](https://docs.swift.org/swift-book/ReferenceManual/Attributes.html#ID633)
+* [Awesome Result Builder](https://github.com/carson-katri/awesome-result-builders)
