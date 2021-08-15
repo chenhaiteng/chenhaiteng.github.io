@@ -914,72 +914,79 @@ At this point, GradientBuilder is complete. But there are some details worth dis
 
 You might notice that GradientBuilder is declared as enumeration type, but ViewBuilder is structure type; and Swift says you can apply @resultBuilder to "a class, structure, enumeration to use that type as a result builder". So, what's the difference among those?
 
+Actually, if you try following code, it shows the differences:
+```swift
+@resultBuilder
+enum EnumBuilder {
+    static func buildBlock(_ components: Int...) -> Int {
+        components.reduce(0) { $0 + $1 }
+    }
+}
+
+@resultBuilder
+struct StructBuilder {
+    static func buildBlock(_ components: Int...) -> Int {
+        components.reduce(0) { $0 + $1 }
+    }
+}
+
+
+@resultBuilder
+class ClassBuilder {
+    static func buildBlock(_ components: Int...) -> Int {
+        components.reduce(0) { $0 + $1 }
+    }
+}
+
+print("\(MemoryLayout<EnumBuilder>.size)")      // 0
+print("\(MemoryLayout<StructBuilder>.size)")    // 0
+print("\(MemoryLayout<ClassBuilder>.size)")     // 8
+
+let _ = StructBuilder()
+let _ = ClassBuilder()
+let _ = EnumBuilder() // error: 'EnumBuilder' cannot be constructed because it has no accessible initializers
+```
+
+For the enum and struct, the memory sizes are both 0, but for class, it is 8.
+It seems due to the difference between Reference Type and Value Type.
+
+In addition, for enum, if and only if the initializer is implemented, otherwise it cannot be constructed.
+
+Also, according to the semantics of result builder, it does not require any variables; in this perspective, enum would be the first choice.
+
 
 <!-- 
+##### Cowork with generic programming
 
 
+##### Oerloading result building methods
+The GradientBuilder support multiple input and output types by overloading *buildExpression* and *buildFinalResult*.
+But it can do more with overloading.
+
+For example, we can add following overloaded functions:
 ```swift
-@CustomBuilder var builder: [String] {
-    "word"
-    "list"
-}
-print("start build")
-let result = builder
-print("result is: \(result)")
-let result2 = builder
-print("result 2 is : \(result2)")
 
-result.withUnsafeBufferPointer { (point) in
-    print(point)
-}
-
-result2.withUnsafeBufferPointer { (point) in
-    print(point)
-}
-```
-
-```swift
-start build
-build block: ["word", "list"]
-result is : ["word", "list"]
-build block: ["word", "list"]
-result 2 is : ["word", "list"]
-UnsafeBufferPointer(start: 0x000060000280a460, count: 2)
-UnsafeBufferPointer(start: 0x0000600002800ae0, count: 2)
-```
-
-```swift
-extension CustomBuilder {
-	static func buildExpression(_ components: String...) -> [String] {
-
-	}
-}
-
-```
+``` 
 -->
-
-##### Oerloading result building methods <!-- Use Overload with result builder -->
-
-##### Cowork with generic programming <!-- 4. Use Generic with result builder -->
 
 ### Conclusion
 
 Let's summarize a list of how to customize the resultbuilder:
 
-- [ ] Declaring a type with @resultbuilder.
-	1. the type might be Class, Structure, or Enum.
-- [ ] Create buildBlock(\_:)
-	1. the basic form of buildBlock would be buildBlock(\_: Component...) -> Component
-	2. It can also be various overloaded functions, such as builcBlock(\_:C1) -> C, builcBlock(\_:C1, \_:C2) -> C, builcBlock(\_:C1, \_:C2, \_:C3) -> C ...
-	3. Considering what type of Component should be; normally, it would be better to define Component as Array<E> where E might be a input type of buildExpression(\_:).
-- [ ] To support various input types, implement buildExpression(\_: Expression) -> Component
-- [ ] To support different output types, implement buildFinalResult(\_: Component) -> FinalResult
-- [ ] buildExpression -> buildBlock -> buildFinalResult works correctly.
-- [ ] To support conditional statement, implement buildEither(first:), buildEither(second:) and buildOptional(\_:)
-	- [ ] check that buildOptional(\_:) deal with null input correctly.
-- [ ] To support for-loop, implement buildArray(\_:) 
-- [ ] To support availablity checking, implement buildLimitedAvailability(_: Component) -> Component
-	- [ ] Check if type should be erased in buildLimitedAvailability. If its need erase the type, the [type erasure](https://www.donnywals.com/understanding-type-erasure-in-swift/) might be helpful.
+- Declaring a type with @resultbuilder.
+	+ the type might be Class, Structure, or Enum.
+- Create buildBlock(\_:)
+	+ the basic form of buildBlock would be buildBlock(\_: Component...) -> Component
+	+ It can also be various overloaded functions, such as builcBlock(\_:C1) -> C, builcBlock(\_:C1, \_:C2) -> C, builcBlock(\_:C1, \_:C2, \_:C3) -> C ...
+	+ Considering what type of Component should be; normally, it would be better to define Component as Array<E> where E might be a input type of buildExpression(\_:).
+- To support various input types, implement buildExpression(\_: Expression) -> Component
+- To support different output types, implement buildFinalResult(\_: Component) -> FinalResult
+    + buildExpression -> buildBlock -> buildFinalResult works correctly.
+- To support conditional statement, implement buildEither(first:), buildEither(second:) and buildOptional(\_:)
+	+ check that buildOptional(\_:) deal with null input correctly.
+- To support for-loop, implement buildArray(\_:) 
+- To support availablity checking, implement buildLimitedAvailability(\_: Component) -> Component
+	+ Check if type should be erased in buildLimitedAvailability. If its need erase the type, the [type erasure](https://www.donnywals.com/understanding-type-erasure-in-swift/) might be helpful.
 
 ---
 	
