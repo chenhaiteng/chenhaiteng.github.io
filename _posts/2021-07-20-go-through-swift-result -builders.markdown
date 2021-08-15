@@ -255,7 +255,7 @@ Also, if you are familer with C++ and interesting in how swift implements result
 
 But for now, let's focus on how the result builder combines these methods and demystify it in an easier way -- log and trace how does it work. 
 
-#### Go through result-building methods
+### Go through result-building methods by creating custom result builder
 
 In this section, a result builder type called GradientBuilder will be created step by step and shows how result-building methods work.
 
@@ -897,7 +897,28 @@ static func buildEither(second: VStack) -> _ConditionalContent<AnyView, VStack>
 ```
 It can be compiled successfully on both macOS 11, iOS 14, and earlier version.
 
+#### Other implementatino details
+At this point, GradientBuilder is complete. But there are some details worth discussing.
 
+
+### Conclusion
+
+Let's summarize a list of how to customize the resultbuilder:
+
+1. Declaring a type with @resultbuilder.
+	1. the type might be Class, Structure, or Enum.
+2. Create buildBlock(\_:)
+	1. the basic form of buildBlock would be buildBlock(\_: Component...) -> Component
+	2. It can also be various overloaded functions, such as builcBlock(\_:C1) -> C, builcBlock(\_:C1, \_:C2) -> C, builcBlock(\_:C1, \_:C2, \_:C3) -> C ...
+	3. Considering what type of Component should be; normally, it would be better to define Component as Array<E> where E might be a input type of buildExpression(\_:).
+3. To support various input types, implement buildExpression(\_: Expression) -> Component
+4. To support different output types, implement buildFinalResult(\_: Component) -> FinalResult
+5. Ensure buildExpression -> buildBlock -> buildFinalResult works correctly.
+6. To support conditional statement, implement buildEither(first:), buildEither(second:) and buildOptional(\_:)
+	1. check that buildOptional(\_:) deal with null input correctly.
+7. To support for-loop, implement buildArray(\_:) 
+8. To support availablity checking, implement buildLimitedAvailability(_: Component) -> Component
+	1. Check if type should be erased in buildLimitedAvailability. If its need erase the type, the [type erasure](https://www.donnywals.com/understanding-type-erasure-in-swift/) might be helpful.
 
 <!-- TODO -->
 <!-- 2. Enum/Class/Structure on result builder -->
