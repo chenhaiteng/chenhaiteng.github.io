@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Go Through Swift Result Builders"
-date:   2021-07-20 17:00:00 +0800
+date:   2021-08-16 15:40:00 +0800
 categories: swift
 tags: swift result-builder
 ---
