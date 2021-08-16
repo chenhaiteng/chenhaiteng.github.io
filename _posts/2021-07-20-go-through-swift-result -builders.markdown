@@ -39,7 +39,7 @@ let view = createView {
 
 print("\(view)") //TupleView<(Text, Rectangle, ...)>
 ```
-The result would be a TupleView wrapping all the views you list in **content**.
+The result would be a TupleView wrapping all the views listed in **content**.
 
 #### Apply result builder when defining functions and closures
 Note that the **content** is a closure, it means the attribute @ViewBuilder can also apply to functions:
