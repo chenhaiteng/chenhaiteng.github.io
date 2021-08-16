@@ -910,7 +910,7 @@ At this point, GradientBuilder is complete. But there are some details worth dis
 
 #### Other Details
 
-+ **What type can resultbuilder apply on? What are the differences among those?** <!-- Enum/Class/Structure on result builder -->
++ **What type can resultbuilder apply on? What are the differences among those?**
 
 You might notice that GradientBuilder is declared as enumeration type, but ViewBuilder is structure type; and Swift says you can apply @resultBuilder to "a class, structure, enumeration to use that type as a result builder". So, what's the difference among those?
 
@@ -960,7 +960,7 @@ Also, according to the semantics of result builder, it does not require any vari
  
 -->
 
-##### Oerloading result building methods
++ **Oerloading result building methods**
 The GradientBuilder support multiple input and output types by overloading *buildExpression* and *buildFinalResult*.
 But it can do more with overloading.
 
