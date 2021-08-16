@@ -954,20 +954,45 @@ In addition, for enum, if and only if the initializer is implemented, otherwise 
 
 Also, according to the semantics of result builder, it does not require any variables; in this perspective, enum would be the first choice.
 
-
 <!-- 
 ##### Cowork with generic programming
 
+ 
+-->
 
 ##### Oerloading result building methods
 The GradientBuilder support multiple input and output types by overloading *buildExpression* and *buildFinalResult*.
 But it can do more with overloading.
 
-For example, we can add following overloaded functions:
+For example, currently, the gradient built by GradientBuilder is evenly distributed; but sometimes, you might want to specify the color location.
+To meet this requirement, GradientBuilder should allow Gradient.Stop as input. So, the following overloading functions added:
 ```swift
+typealias StopExpression = Gradient.Stop
+typealias StopComponent = [StopExpression]]
+typealias ColorStop = (color: Color, location: CGFloat)
 
-``` 
--->
+static func buildExpression(_ stop: StopExpression) -> StopComponent {
+    return [stop]
+}
+
+static func buildExpression(_ stop: STOP) -> StopComponent {
+    return [Gradient.Stop(color: stop.color, location: stop.location)]
+}
+```
+Now, GradientBuilder can accept Gradient.Stop and a color-location tuple as input. But it's not enough, because the *buildBlock* cannot process array of Gradient.Stop. Let's add the support for Gradient.Stop:
+```swift
+static func buildBlock(_ components: StopComponent...) -> StopComponent {
+    return components.flatMap { $0 }
+}
+```
+Same, it needs overloading buildEither(first:), builderEither(second:), and other result building methods to support Gradient.Stop.
+In fact, it shows that you can create **another path to process the input data** by overloading.
+
+This technique is useful for some case, for example, in ViewBuilder and other built-in builder, it's common to have an *buildBlock* to process empty statement:
+```swift
+static func buildBlock() -> EmptyView
+```
+With this overloaded function, ViewBuilder returns EmptyView directly without invoking unnecessary call stack.
 
 ### Conclusion
 
@@ -979,6 +1004,7 @@ Let's summarize a list of how to customize the resultbuilder:
 	+ the basic form of buildBlock would be buildBlock(\_: Component...) -> Component
 	+ It can also be various overloaded functions, such as builcBlock(\_:C1) -> C, builcBlock(\_:C1, \_:C2) -> C, builcBlock(\_:C1, \_:C2, \_:C3) -> C ...
 	+ Considering what type of Component should be; normally, it would be better to define Component as Array<E> where E might be a input type of buildExpression(\_:).
+	+ Check if it needs buildBlock for empty statement.
 - To support various input types, implement buildExpression(\_: Expression) -> Component
 - To support different output types, implement buildFinalResult(\_: Component) -> FinalResult
     + buildExpression -> buildBlock -> buildFinalResult works correctly.
