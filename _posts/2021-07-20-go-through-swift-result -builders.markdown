@@ -871,7 +871,7 @@ struct ContentView: View {
     }
 }
 ```
-The snippet above is from SE-0289. it shows the example that *buildLimitedAvailability* is necessary. But why?
+The snippet above is from [SE-0289](https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md). it shows the example that *buildLimitedAvailability* is necessary. But why?
 
 The reason is about how ViewBuilder implement its *buildEither(first:)* and *buildEither(second:)* :
 ```
@@ -992,7 +992,7 @@ With this overloaded function, ViewBuilder returns EmptyView directly without in
 
 Finally, let's talk about the use of generics on the result builder.
 Here is [SequenceBuilder](https://github.com/andtie/SequenceBuilder), a function builder (the predecessor of result builder) implemented using generics.
-First, it declares several generic *buildBlock* and *buildExpression*. Then, it has a generic enum **Either** which is a variant of the original typelist in [Loki](https://github.com/snaewe/loki-lib/blob/master/include/loki/Typelist.h).
+First, it declares several generic *buildBlock* and *buildExpression*. Then, it has a generic enum **Either** which is a variant of the original typelist in [Loki](https://github.com/snaewe/loki-lib/blob/master/include/loki/Typelist.h)(Actually, it's a combination of typlist and enum with assoicated values, very clever.)
 With these generic methods and types, SequenceBuilder provides the ability to "build arbitrary heterogenous sequences without loosing information about the underlying types".
 
 Comparing to the GradientBuilder, which process array of color at run-time, the SequenceBuilder handles series of data at compile-time by generic programming.
@@ -1029,6 +1029,9 @@ Let's summarize a list of how to customize the resultbuilder:
 	
 ### References:
 * [SE-0289](https://github.com/apple/swift-evolution/blob/main/proposals/0289-result-builders.md)
+* [Swift source](https://github.com/apple/swift)
 * [The Swift Programming Language - resultBuilder](https://docs.swift.org/swift-book/ReferenceManual/Attributes.html#ID633)
 * [Awesome Result Builder](https://github.com/carson-katri/awesome-result-builders)
+* [SequenceBuilder](https://github.com/andtie/SequenceBuilder)
+* [Loki](https://github.com/snaewe/loki-lib)
 * [GradientBuilder Source](https://github.com/chenhaiteng/GradientBuilder)
