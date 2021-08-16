@@ -954,12 +954,6 @@ In addition, for enum, if and only if the initializer is implemented, otherwise 
 
 Also, according to the semantics of result builder, it does not require any variables; in this perspective, enum would be the first choice.
 
-<!-- 
-##### Cowork with generic programming
-
- 
--->
-
 + **Oerloading result building methods**
 The GradientBuilder support multiple input and output types by overloading *buildExpression* and *buildFinalResult*.
 But it can do more with overloading.
@@ -994,6 +988,23 @@ static func buildBlock() -> EmptyView
 ```
 With this overloaded function, ViewBuilder returns EmptyView directly without invoking unnecessary call stack.
 
++ **Generic on Result Builder**
+
+Finally, let's talk about the use of generics on the result builder.
+Here is [SequenceBuilder](https://github.com/andtie/SequenceBuilder), a function builder (the predecessor of result builder) implemented using generics.
+First, it declares several generic *buildBlock* and *buildExpression*. Then, it has a generic enum **Either** which is a variant of the original typelist in [Loki](https://github.com/snaewe/loki-lib/blob/master/include/loki/Typelist.h).
+With these generic methods and types, SequenceBuilder provides the ability to "build arbitrary heterogenous sequences without loosing information about the underlying types".
+
+Comparing to the GradientBuilder, which process array of color at run-time, the SequenceBuilder handles series of data at compile-time by generic programming.
+It creates result builders in a more efficient and flexible way. 
+
+At the same time, the generic result builder has its disadvantages:
+1. It's hard to understand and expertize generic metaprogramming.
+2. It's hard to support variadic input, especially when input types are heterogenous. For example, both the ViewBuilder and SequenceBuilder can support upto 10 views only. If you want more, you need to extend another buildBlock and buileExpression by yourself.
+
+Normally, create a custom result builder does not need use generic, but if the result builder need to process opaque type and protocol, then generic implementation might be a better solution.
+
+---
 ### Conclusion
 
 Let's summarize a list of how to customize the resultbuilder:
