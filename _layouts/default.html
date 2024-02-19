@@ -49,7 +49,9 @@
       <section>
         {{ content }}
       </section>
-
+      <sidebar style="position: fixed; float: left; width: 200px; margin-left: 40px; margin-top: 400px;">
+        {% include tag_cloud.html %}
+      </sidebar>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
