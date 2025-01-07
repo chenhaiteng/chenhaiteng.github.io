@@ -6,8 +6,6 @@ categories: android
 tags: kotlin android gradle jitpack maven-publish
 ---
 
-# 透過 JitPack 發佈 Android 函式庫
-
 ## 發佈函式庫的優點
 - 分享成果
     - 程式複用
@@ -267,11 +265,13 @@ dependencies {
 1. 透過 GitHub 網頁發佈版本
     1. 登入GitHub，並進到對應的倉儲。
     2. 在頁面的右側，可以看到 Release 區塊:
-    ![Fig 6](/assets/images/github_release_block.png)
+
+        ![Fig 6](/assets/images/github_release_block.png)
 
         點擊 Create a new release，開始創建發佈版本。
     3. 如下圖所示，產生新的版本，必需對應到某個標簽(Tag)，如果尚未有對應的標簽，可以在輸入標簽文字後，點擊 `Create new tag` 字樣，產生新的標簽。
-    ![Fig 7](/assets/images/github_create_release.png)
+
+        ![Fig 7](/assets/images/github_create_release.png)
     4. 選好標簽後，依序填入版本標題(Title)，內容描述(Description)，將畫面拉到最下方，點擊 `Publish Release` 按鈕，即可完成 GitHub 上的版本發佈。
 2. 透過 GitHub CLI[<sup>(註13)</sup>](#ref_13) 發佈版本
     對於想進一步將流程自動化的開發者，推薦使用 GitHub CLI 來幫助發佈版本。

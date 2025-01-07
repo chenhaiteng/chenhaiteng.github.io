@@ -6,8 +6,6 @@ categories: unicode
 tags: unicode
 ---
 
-# 行動裝置上的悉曇文字處理
-
 1. 字型支援:
    - iOS : 內建，可直接使用 system
    - Android : 需載入字型檔。已知有以下選擇: Noto Sans Siddham, ApDevaSiddham, 以及 Muktamsiddham
