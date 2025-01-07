@@ -34,6 +34,7 @@ github:
 theme: jekyll-theme-dinky
 plugins:
   - jekyll-feed
+  - jekyll-toc
 google_analytics: UA-1157651-2
 
 comment_api: https://whisper-comment.herokuapp.com/v3/entry/github/chenhaiteng/chenhaiteng.github.io/main/comments
@@ -57,5 +58,11 @@ comment_api: https://whisper-comment.herokuapp.com/v3/entry/github/chenhaiteng/c
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-
+# _config.yml
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      toc: true
 # plugins settings
