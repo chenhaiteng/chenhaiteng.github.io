@@ -3,6 +3,13 @@
 
 @import "{{ site.theme }}";
 
+.wrapper {
+	width: inherit;
+}
+
+.header {
+	width: 90%;
+}
 
 h1 {
 	font-size: 36px;

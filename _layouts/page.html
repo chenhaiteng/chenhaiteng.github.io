@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.lang | default: "en-US" }}">
+<html lang="{{ site.lang | default: 'en-US' }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +17,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <header>
+      <header style="width: 15%; min-width: 200px;">
         <h1 class="header">{{ site.title | default: site.github.repository_name }}</h1>
         <p class="header">{{ site.description | default: site.github.project_tagline }}</p>
 
@@ -39,12 +39,16 @@
         <div><p class="header"><a href="/">Home</a></p></div>
       </header>
       
-      <section>
-        {{ content }}
-      </section>
+      <div style="width: calc(85% - 60px); float:right; justify-content: center; display: flex;">
+        <div style="width: 90%">
+          <section style="width: inherit;">
+            {{ content }}
+          </section>
+        </div>
+      </div>
       
       {% if page.id %}
-      <sidebar style="position: fixed; float: left; width: 200px; margin-left: 40px; margin-top: 400px;">
+      <sidebar style="position: fixed; float: left; min-width: 200px; width:15%; margin-left: 40px; margin-top: 400px;">
         {% include tag_cloud.html %}
       </sidebar>
       {% endif %}

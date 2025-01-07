@@ -21,7 +21,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <header>
+      <header style="width: 15%; min-width: 200px;">
         <h1 class="header">{{ site.title | default: site.github.repository_name }}</h1>
         <p class="header">I'm {{ site.github.nickname | default: site.github.project_tagline }}.</p>
         <p class="header">{{ site.description | default: site.github.project_tagline }}</p>
@@ -46,10 +46,10 @@
         {% endif %}
       </header>
 
-      <section>
+      <section style="width: calc(85% - 100px); float: right;">
         {{ content }}
       </section>
-      <sidebar style="position: fixed; float: left; width: 200px; margin-left: 40px; margin-top: 400px;">
+      <sidebar style="position: fixed; float: left; min-width: 200px; width: 15%; margin-left: 40px; margin-top: 400px;">
         {% include tag_cloud.html %}
       </sidebar>
       <footer>
