@@ -313,6 +313,8 @@ dependencies {
     dependencies {
         // 直接宣告，形式為 groupId:artifactId:version
         implementation 'com.github.${github_account}:${name_of_artifact}:${version}'
+        // Gradle Kotlin DSL 語法則如下:
+        // implementation("com.github.${github_account}:${name_of_artifact}:${version}")
     }
     ```
     當然，也可使用 Gradle版本目錄 ：
