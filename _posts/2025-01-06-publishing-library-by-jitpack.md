@@ -135,8 +135,8 @@ tags: kotlin android gradle jitpack maven-publish
 
 6. 整合環境處理
     1. JDK 相容性[<sup>(註5)</sup>](#ref_5):
-        - Android Studio Ladybug 產生的 `build.gradle.kts`，其 JDK 版本為 11
-        - Gradle Plugin 8.7/Gradle 8.9 所需要的 JDK 版本為 17.
+        - Android Studio Ladybug 產生的 `build.gradle.kts`，預設 JDK 版本為 11
+        - 目前預設 Android SDK 是 34，最低需求 JDK 版本為 17
         - JitPack 環境的預設 JDK 為 8[<sup>(註6)</sup>](#ref_6)
         - 如果要使用函式庫的專案有使用CI/CD服務，或是有另外的建構環境，也需要一起考慮。
         - 為整合JDK環境，需要做以下幾件事:
@@ -334,7 +334,6 @@ dependencies {
 到此，自建的函式庫就可以透過 Maven + JitPack，在不同專案中複用。
 
 ---
-
 # 附錄：函式庫發佈檢查表:
 - [ ] 建立 Android 函式庫專案
     - [ ] 包含範例程式
@@ -359,6 +358,9 @@ dependencies {
 - [ ] 主專案引用函式庫
     - [ ] 是否有設定 `maven(url = "https://jitpack.io")`
     - [ ] 是否有在依賴區塊中，宣告函式庫
+
+# 附錄：[JitPackPublishHelpers](https://github.com/chenhaiteng/JitPackPublishHelpers)
+    用來協助處理 "建立 Android 函式庫專案" 以及 "檢查環境" 兩項工作的小工具。
 
 # 參考文件:
 1. <a name="ref_1"/>[Guide to naming conventions on groupId, artifactId, and version](https://maven.apache.org/guides/mini/guide-naming-conventions.html)
