@@ -102,5 +102,7 @@ struct IOSMenuPicker<SELECTION: Hashable, Content: View>: View {
 要注意的部分在於，雖然記憶體用量相較Picker及Menu少很多，但每次開閤Menu，還是會有記憶體些微增加的情況。
 
 
-- 更進一步的改進，考慮到可供選取的資料較多，應可提供搜尋功能輔助完整列表。但搜尋功能多半與資料特性相關，要設計成泛用元件會有一定難度，在此不另做說明。
+更進一步的改進，考慮到可供選取的資料較多，應可提供搜尋功能輔助完整列表。但搜尋功能多半與資料特性相關，要設計成泛用元件會有一定難度，在此不另做說明。
+
+最後，附上詳細[範例程式](https://github.com/chenhaiteng/PickerMemoryDemo)。
 
